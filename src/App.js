@@ -29,6 +29,17 @@ const UserHint = ({ loading, hintText }) => (
   </div>
 );
 
+const Button = ({ hasResults, searchTerm, searchGiphy }) => (
+  <div className=" grid">
+    {hasResults ? (
+      <button onClick={() => searchGiphy(searchTerm)}>
+        <h1 className="title button">Enter</h1>
+        {/* <img src={randomButton} /> */}
+      </button>
+    ) : null}
+  </div>
+);
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -83,7 +94,6 @@ class App extends Component {
   handleKeyPress = event => {
     const { value } = event.target;
     if (value.length > 2 && event.key === "Enter") {
-      console.log("send api request with " + value);
       this.searchGiphy(value);
     }
   };
@@ -123,6 +133,11 @@ class App extends Component {
           />
         </div>
         <UserHint {...this.state} />
+        <Button
+          hasResults={hasResults}
+          searchTerm={searchTerm}
+          searchGiphy={this.searchGiphy}
+        />
       </div>
     );
   }

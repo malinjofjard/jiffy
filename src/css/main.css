@@ -119,6 +119,13 @@ button {
   transform: scale(1) rotate(7deg);
 }
 
+.button {
+  color: #fff;
+  padding: 1vh 5vw;
+  border: solid 2px #fff;
+  margin-top: 1vh;
+}
+
 @media (max-width: 480px) {
 
   .user-hint,
