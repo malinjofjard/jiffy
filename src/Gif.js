@@ -8,6 +8,19 @@ class Gif extends Component {
     };
   }
 
+  componentDidUpdate() {
+    if (this.props.playing) return this.play();
+    else return this.pause();
+  }
+
+  play() {
+    this.video.play();
+  }
+
+  pause() {
+    this.video.pause();
+  }
+
   render() {
     const { images } = this.props;
     const { loaded } = this.state;
@@ -15,9 +28,12 @@ class Gif extends Component {
       <video
         className={`grid-item video ${loaded && "loaded"}`}
         autoPlay
+        muted
         loop
+        playsInline
         src={images.original.mp4}
         onLoadedData={() => this.setState({ loaded: true })}
+        ref={video => (this.video = video)}
       />
     );
   }

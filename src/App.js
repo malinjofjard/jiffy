@@ -50,6 +50,15 @@ class App extends Component {
     };
   }
 
+  componentDidMount() {
+    document.addEventListener("keydown", this.keyDownListener);
+  }
+
+  componentWillUnmount() {
+    // Make sure to remove the DOM listener when the component is unmounted.
+    document.removeEventListener("keydown", this.keyDownListener);
+  }
+
   searchGiphy = async searchTerm => {
     this.setState({ loading: true });
     try {
@@ -70,6 +79,8 @@ class App extends Component {
         loading: false,
         hintText: `Hit enter to search for more ${searchTerm}`
       }));
+
+      this.textInput.blur();
     } catch (error) {
       this.setState((prevState, props) => ({
         ...prevState,
@@ -91,10 +102,11 @@ class App extends Component {
     }));
   };
 
-  handleKeyPress = event => {
-    const { value } = event.target;
-    if (value.length > 2 && event.key === "Enter") {
-      this.searchGiphy(value);
+  keyDownListener = event => {
+    const keyName = event.key;
+    const { searchTerm } = this.state;
+    if (searchTerm.length > 2 && keyName === "Enter") {
+      this.searchGiphy(searchTerm);
     }
   };
 
@@ -117,15 +129,17 @@ class App extends Component {
 
         <div className="search grid">
           {/* here should the gif images be*/}
-          {this.state.gifs.map(gif => (
-            <Gif {...gif} />
+          {this.state.gifs.map((gif, i) => (
+            <Gif
+              {...gif}
+              playing={this.state.gifs.length - 1 === i ? true : false}
+            />
           ))}
 
           <input
             className="input grid-item"
             placeholder="Type something"
             onChange={this.handleChange}
-            onKeyPress={this.handleKeyPress}
             value={searchTerm}
             ref={input => {
               this.textInput = input;
