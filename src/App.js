@@ -46,8 +46,7 @@ class App extends Component {
     this.state = {
       searchTerm: "",
       hintText: "",
-      gifs: [],
-      test: false
+      gifs: []
     };
   }
 
